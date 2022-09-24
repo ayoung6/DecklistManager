@@ -28,6 +28,8 @@ const saveDecklist = async interaction => {
 	const collected = await interaction.channel.awaitMessages({ filter, max: 1, time: 60000 });
 	collected.forEach(msg => {
 		msg.attachments.forEach(attachment => {
+			const ext = attachment.name.split('.')[1];
+			if (ext !== 'cod') return;
 			downloadFromUrl(attachment.url, attachment.name, interaction);
 			interaction.channel.send({embeds: [new EmbedBuilder()
                 .setColor('#1a8175')
