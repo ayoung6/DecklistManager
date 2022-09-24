@@ -1,8 +1,8 @@
 require('dotenv').config(); //initialize dotenv
 
-const { Client, GatewayIntentBits } = require('discord.js');
-const {SaveDeckList, LoadDeckList, ListDecklists} = require('./app');
-const prefix = "!dm";
+const fs = require('node:fs');
+const path = require('node:path');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
 const client = new Client(
   {
@@ -14,40 +14,36 @@ const client = new Client(
   }
 );
 
-// Function to parse what functionality the user wants
-// Hands off process to one of the App classes
-const handoff = async (args, msg) => {
-  const command = args[0];
+client.commands = new Collection();
 
-  switch (command.toLowerCase()){
-    case 'updatelist':
-    case 'savelist':
-      await SaveDeckList(args, msg);
-      break;
-    case 'loadlist':
-      await LoadDeckList(args, msg);
-      break;
-    case 'list':
-    case 'show':
-      await ListDecklists(args, msg);
-      break;
-    default:
-      await msg.reply('Your command of `' + command + '` returned no actions');
-  }
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const filePath = path.join(commandsPath, file);
+  const command = require(filePath);
+  // Set a new item in the Collection
+  // With the key as the command name and the value as the exported module
+  client.commands.set(command.data.name, command);
 }
 
 client.on('ready', () => {
   
 });
 
-client.on('messageCreate', async msg => {
-  const message = msg.content;
-  if (!message.startsWith(prefix)) return;
+client.on('interactionCreate', async interaction => {
+  if(!interaction.isChatInputCommand()) return;
 
-  let args = message.split(' ');
-  args = args.splice(1, args.length-1);
+  const command = interaction.client.commands.get(interaction.commandName);
 
-  await handoff(args, msg);
+  if (!command) return;
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
 });
 
 //make sure this line is the last line
