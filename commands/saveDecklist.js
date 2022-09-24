@@ -17,7 +17,6 @@ const downloadFromUrl = async (url, name, interaction) => {
 	      writeStream.close();
 	      server.decks.default[name.split('.')[0]] = {'cod': `${process.env.DECKLIST_PATH}${name}`, 'uploader': `${interaction.user.username}#${interaction.user.discriminator}`};
 	      fs.writeFileSync(process.env.JSON_DATABASE, JSON.stringify(server));
-	      console.log(server.decks.default);
 	   })
 	})
 };
