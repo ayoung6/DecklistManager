@@ -1,4 +1,4 @@
-const basePath = 'http://localhost:3000/decks';
+const basePath = process.env.BASEPATH;
 
 const API = {};
 
