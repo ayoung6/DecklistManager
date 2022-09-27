@@ -1,8 +1,8 @@
 const {SlashCommandBuilder, EmbedBuilder} = require('discord.js');
-const API = require('/Helpers/JsonServer');
+const API = require('../Helpers/JsonServer.js');
 
 const listDeckLists = async interaction => {
-	const deckLists = API.getAllDecks();
+	const deckLists = await API.getAllDecks();
 	interaction.channel.send({embeds: [new EmbedBuilder()
                 .setColor('#1a8175')
                 .setTitle(`Saved Lists`)

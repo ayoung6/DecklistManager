@@ -1,12 +1,13 @@
 // Decklist will be in an attachment
 const {SlashCommandBuilder, EmbedBuilder} = require('discord.js');
-const API = require('/Helpers/JsonServer');
+const API = require('../Helpers/JsonServer');
 const https = require("https");
 const fs = require("fs");
 
-const downloadFromUrl = async (url, name, interaction) => {
+const downloadFromUrl = async (url, fileName, interaction) => {
 	https.get(url, (res) => {
-	   const path = process.env.DECKLIST_PATH + name;
+	   const path = process.env.DECKLIST_PATH + fileName;
+	   const name = fileName.split('.')[0];
 	   const writeStream = fs.createWriteStream(path);
 	   const uploader = `${interaction.user.username}#${interaction.user.discriminator}`;
 	   const set = 'default';
@@ -21,7 +22,7 @@ const downloadFromUrl = async (url, name, interaction) => {
 		  interaction.channel.send({embeds: [new EmbedBuilder()
 				   .setColor('#1a8175')
 				   .setTitle(`📖 Decklist received!!`)
-				   .setDescription(`Decklist ${attachment.name.split('.')[0]} received`)]});
+				   .setDescription(`Decklist ${name} received`)]});
 	   })
 	})
 };

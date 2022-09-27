@@ -1,5 +1,5 @@
 const {SlashCommandBuilder} = require('discord.js');
-const API = require('/Helpers/JsonServer');
+const API = require('../Helpers/JsonServer');
 
 const decknameoption = 'deckname';
 
