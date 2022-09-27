@@ -23,14 +23,14 @@ const downloadFromUrl = async (url, name, interaction) => {
 
 const saveDecklist = async interaction => {
 	const filter = m => m.author.id === interaction.user.id;
-	interaction.reply("Please post your decklist");
+	await interaction.reply("Please post your decklist");
 	const collected = await interaction.channel.awaitMessages({ filter, max: 1, time: 60000 });
 	collected.forEach(msg => {
-		msg.attachments.forEach(attachment => {
+		msg.attachments.forEach(async attachment => {
 			const ext = attachment.name.split('.')[1];
 			if (ext !== 'cod') return;
 			downloadFromUrl(attachment.url, attachment.name, interaction);
-			interaction.channel.send({embeds: [new EmbedBuilder()
+			await interaction.channel.send({embeds: [new EmbedBuilder()
                 .setColor('#1a8175')
                 .setTitle(`📖 Decklist received!!`)
                 .setDescription(`Decklist ${attachment.name.split('.')[0]} received`)]});

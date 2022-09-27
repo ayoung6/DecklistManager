@@ -5,11 +5,12 @@ const decknameoption = 'deckname';
 
 const uploadDecklist = async interaction => {
 	const deckname = interaction.options.get(decknameoption);
+	await interaction.reply(`Searching for ${deckname.value}`);
 	if (deckname) {
 		for ([_, sets] of Object.entries(server.decks)) {
 			for ([key, value] of Object.entries(sets)) {
 				if (key.toLowerCase() === deckname.value.toLowerCase()) {
-					interaction.channel.send({files: [{attachment: value.cod, name: `${key}.cod`}]});
+					await interaction.channel.send({files: [{attachment: value.cod, name: `${key}.cod`}]});
 					return;
 				}
 			};
