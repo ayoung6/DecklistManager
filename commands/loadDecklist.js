@@ -1,19 +1,16 @@
-const {SlashCommandBuilder, Attachment, EmbedBuilder} = require('discord.js');
-const server = require(`../${process.env.JSON_DATABASE}`);
+const {SlashCommandBuilder} = require('discord.js');
+const API = require('../Helpers/JsonServer');
 
 const decknameoption = 'deckname';
 
 const uploadDecklist = async interaction => {
 	const deckname = interaction.options.get(decknameoption);
 	if (deckname) {
-		for ([_, sets] of Object.entries(server.decks)) {
-			for ([key, value] of Object.entries(sets)) {
-				if (key.toLowerCase() === deckname.value.toLowerCase()) {
-					interaction.channel.send({files: [{attachment: value.cod, name: `${key}.cod`}]});
-					return;
-				}
-			};
-		};
+		for (let deck in await API.getAllDecks()) {
+			if (deck.name.toLowerCase() === deckname.value.toLowerCase()){
+				return interaction.channel.send({files: [{attachment: deck.cod, name: `${deck.name}.cod`}]});
+			}
+		}
 	}
 	else
 		interaction.reply("Required option `deckname` not provided");
