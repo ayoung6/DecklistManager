@@ -35,15 +35,7 @@ const saveDeckList = async interaction => {
 		msg.attachments.forEach(async attachment => {
 			const ext = attachment.name.split('.')[1];
 			if (ext !== 'cod') return;
-<<<<<<< HEAD
-			downloadFromUrl(attachment.url, attachment.name, interaction);
-			await interaction.channel.send({embeds: [new EmbedBuilder()
-                .setColor('#1a8175')
-                .setTitle(`📖 Decklist received!!`)
-                .setDescription(`Decklist ${attachment.name.split('.')[0]} received`)]});
-=======
 			await downloadFromUrl(attachment.url, attachment.name, interaction);
->>>>>>> 897367e942e16fb08b679c6986dbda3d40ba098a
 		});
 	});
 };
