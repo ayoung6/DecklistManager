@@ -29,7 +29,7 @@ const downloadFromUrl = async (url, fileName, interaction) => {
 
 const saveDeckList = async interaction => {
 	const filter = m => m.author.id === interaction.user.id;
-	interaction.reply("Please post your decklist");
+	await interaction.reply("Please post your decklist");
 	const collected = await interaction.channel.awaitMessages({ filter, max: 1, time: 60000 });
 	collected.forEach(msg => {
 		msg.attachments.forEach(async attachment => {

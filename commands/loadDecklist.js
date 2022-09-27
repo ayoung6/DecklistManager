@@ -5,6 +5,7 @@ const decknameoption = 'deckname';
 
 const uploadDecklist = async interaction => {
 	const deckname = interaction.options.get(decknameoption);
+	await interaction.reply(`Searching for ${deckname.value}`);
 	if (deckname) {
 		for (let deck in await API.getAllDecks()) {
 			if (deck.name.toLowerCase() === deckname.value.toLowerCase()){
