@@ -1,1 +1,12 @@
-{"decks":{"precon":{},"netdeck":{},"default":{"Forces_of_the_Imperium":{"cod":"decklists/Forces_of_the_Imperium.cod","uploader":"Arachno-Malarkyist#4084"}}}}
+{
+  "decks": [
+    {
+      "id": "preconForces_of_the_ImperiumArachno-Malarkyist#4084",
+      "set": "precon",
+      "name": "Forces_of_the_Imperium",
+      "cod": "decklists/Forces_of_the_Imperium.cod",
+      "uploader": "Arachno-Malarkyist#4084",
+      "description": null
+    }
+  ]
+}
