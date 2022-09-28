@@ -13,7 +13,7 @@ const randomList = async interaction => {
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('random')
+		.setName('RandomDeckList')
 		.setDescription('Provides a random deck list to play')
 		.addBooleanOption(option =>
 			option.setName('private')
