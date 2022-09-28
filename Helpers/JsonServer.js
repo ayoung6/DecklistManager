@@ -1,4 +1,5 @@
 const basePath = process.env.BASEPATH;
+const crypto = require("crypto");
 
 const API = {};
 
@@ -11,6 +12,12 @@ API.getAllDecks = async () => {
         })
         .then(res => res?.ok ? res : Promise.reject(res))
         .then(res => res.json());
+};
+
+API.getRandomDeck = async () => {
+    const deckLists = await API.getAllDecks();
+    const index = crypto.randomInt(deckLists.length);
+    return deckLists[index];
 };
 
 API.getDecksByParameter = async (parameter, value) => {

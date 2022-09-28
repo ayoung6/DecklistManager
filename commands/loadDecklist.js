@@ -9,12 +9,12 @@ const uploadDecklist = async interaction => {
 	if (deckname) {
 		for (let deck in await API.getAllDecks()) {
 			if (deck.name.toLowerCase() === deckname.value.toLowerCase()){
-				return interaction.channel.send({files: [{attachment: deck.cod, name: `${deck.name}.cod`}]});
+				return await interaction.channel.send({files: [{attachment: deck.cod, name: `${deck.name}.cod`}]});
 			}
 		}
 	}
 	else
-		interaction.reply("Required option `deckname` not provided");
+		await interaction.reply("Required option `deckname` not provided");
 };
 
 module.exports = {
