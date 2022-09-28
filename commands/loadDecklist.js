@@ -12,6 +12,11 @@ const uploadDecklist = async interaction => {
 				return await interaction.channel.send({files: [{attachment: deck.cod, name: `${deck.name}.cod`}]});
 			}
 		}
+		for (let deck in await API.getAllDecks()) {
+			if (deck.name.toLowerCase().includes(deckname.value.toLowerCase())){
+				return interaction.channel.send({files: [{attachment: deck.cod, name: `${deck.name}.cod`}]});
+			}
+		}
 	}
 	else
 		await interaction.reply("Required option `deckname` not provided");
