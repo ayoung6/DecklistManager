@@ -42,7 +42,7 @@ const saveDeckList = async interaction => {
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('savelist')
+		.setName('UploadDeckList')
 		.setDescription('Saves a new decklist'),
 	async execute(interaction) {
 		await saveDeckList(interaction);
