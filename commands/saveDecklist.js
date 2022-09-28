@@ -19,7 +19,7 @@ const downloadFromUrl = async (url, fileName, interaction) => {
 
 		  // Write file association to server
 		  await API.postDeck(set, name, path, uploader);
-		  interaction.channel.send({embeds: [new EmbedBuilder()
+		  await interaction.channel.send({embeds: [new EmbedBuilder()
 				   .setColor('#1a8175')
 				   .setTitle(`📖 Decklist received!!`)
 				   .setDescription(`Decklist ${name} received`)]});
