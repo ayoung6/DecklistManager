@@ -18,11 +18,7 @@ const downloadFromUrl = async (url, fileName, interaction) => {
 	      writeStream.close();
 
 		  // Write file association to server
-		  await API.postDeck(set, name, path, uploader);
-		  interaction.channel.send({embeds: [new EmbedBuilder()
-				   .setColor('#1a8175')
-				   .setTitle(`📖 Decklist received!!`)
-				   .setDescription(`Decklist ${name} received`)]});
+	  	  await API.postDeck(set, name, path, uploader);
 	   })
 	})
 };
@@ -31,13 +27,33 @@ const saveDeckList = async interaction => {
 	const filter = m => m.author.id === interaction.user.id;
 	await interaction.reply("Please post your decklist");
 	const collected = await interaction.channel.awaitMessages({ filter, max: 1, time: 60000 });
+	const description = {success: [], error: []};
 	collected.forEach(msg => {
 		msg.attachments.forEach(async attachment => {
 			const ext = attachment.name.split('.')[1];
 			if (ext !== 'cod') return;
-			await downloadFromUrl(attachment.url, attachment.name, interaction);
+			try{
+				downloadFromUrl(attachment.url, attachment.name, interaction);
+				description.success.push(attachment.name);
+				console.log(attachment.name);
+			}catch(e){
+				console.log('Error: ', e);
+				description.error.push(attachment.name);
+			}
 		});
 	});
+
+	interaction.channel.send({embeds: [new EmbedBuilder()
+		.setColor('#1a8175')
+		.setTitle(`📖 Decklist Successfully Uploaded!!`)
+		.setDescription(JSON.stringify(description.success))]});
+	
+	if (description.error.length){
+		interaction.channel.send({embeds: [new EmbedBuilder()
+			.setColor('#1a8175')
+			.setTitle(`Decklist Errors`)
+			.setDescription(JSON.stringify(description.error))]});
+	}
 };
 
 module.exports = {
