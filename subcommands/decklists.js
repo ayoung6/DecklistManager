@@ -44,10 +44,17 @@ module.exports = {
 
 	view: async interaction => {
 		const deckLists = await API.getAllDecks();
+		let message = '';
+
+		for (index in deckLists){
+			let deck = deckLists[index];
+			message = message + `\`\`\`Deck Name: ${deck['name']}\nDeck Uploader: ${deck['uploader']}\`\`\`\n`
+		}
+
 		await interaction.reply({embeds: [new EmbedBuilder()
 	                .setColor('#1a8175')
 	                .setTitle(`Saved Lists`)
-	                .setDescription(`${JSON.stringify(deckLists, null, 4)}`)]});
+	                .setDescription(message)]});
 	},
 
 	download: async interaction => {
